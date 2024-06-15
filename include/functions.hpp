@@ -17,7 +17,6 @@ extern "C"
 }
 #endif
 uint8_t temprature_sens_read();
-
 //Genera un log en el puerto serial
 void log(String s){
     Serial.println(s);
@@ -26,7 +25,7 @@ void log(String s){
 String platform(){
     //Optiene la Placa de desarollo
     #ifdef ARDUINO_ESP32_DEV
-        return "ESP32XXX";
+        return "ESP32";
     #endif
 }
 //Convierte un char a IP
@@ -54,6 +53,7 @@ String longTimeStr(const time_t &t){
     s += String(second(t));
     return s;
 }
+
 //Convertidor de Ip a string
 String ipStr(const IPAddress &ip){
     String sFn ="";
@@ -80,9 +80,9 @@ String idUnique(){
     snprintf(idunique, 15, "%04X", chip);
     return idunique;
 }
-// ID del Dispositivo para La Base de Datos
+// ID del servidor para La Base de Datos
 const String device_id = hexStr(ESP.getEfuseMac()) + "LI" + String(idUnique()); 
-// ID del Dispositivo para La Base de Datos
+// ID del servidor para La Base de Datos
 String deviceID(){
     return String(platform()) + hexStr(ESP.getEfuseMac()) + String(idUnique());
 }
@@ -144,7 +144,6 @@ float TempCPUValue (){
 // Retorna el listado de todos los archivos en el SPIFFS
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     Serial.printf("Listado de Directorio: %s\r\n", dirname);
-
     File root = fs.open(dirname);
     if(!root){
         log("- No se pudo abrir el directorio");
@@ -154,7 +153,6 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
         log(" - No es un directorio");
         return;
     }
-
     File file = root.openNextFile();
     while(file){
         if(file.isDirectory()){
@@ -238,7 +236,7 @@ String SweetAlert(String TitleWeb, String SweetTitle, String SweetText, String S
                         " reverseButtons: true"
                         " }).then((result) => {"
                                     "if (result.isConfirmed){"
-                                        "window.location = 'esp-reiniciar';"
+                                        "window.location = 'esp-servidor';"
                                         "}else if ("
                                         "result.dismiss === Swal.DismissReason.cancel"
                                         "){"
@@ -279,4 +277,45 @@ String SweetAlert(String TitleWeb, String SweetTitle, String SweetText, String S
                     "</html>";
     }
     return SweetAlert;
+}
+//Control de los Relay desde MQTT Y WS
+boolean settingsSaveRelays();
+void OnOffRelays(String command){
+    DynamicJsonDocument JsonDoc(1024);
+    deserializeJson(JsonDoc, command);
+    if(JsonDoc["protocol"] == "WS"){
+        log("Info: Commando por WS => " + command);
+    }else{
+        log("Info: Commando por MQTT => " + command);
+    }
+    serializeJsonPretty(JsonDoc, Serial);
+    if (JsonDoc["value"]){
+        digitalWrite(JsonDoc["output"] == "RELAY1" ? RELAY1 : RELAY2, HIGH);
+        JsonDoc["output"] == "RELAY1" ? Relay01_status = HIGH : Relay02_status = HIGH ;
+    }else {
+        digitalWrite(JsonDoc["output"] == "RELAY1" ? RELAY1 : RELAY2, LOW);
+        JsonDoc["output"] == "RELAY1" ? Relay01_status = LOW : Relay02_status = LOW ;
+    }
+    settingsSaveRelays();   
+}
+
+
+// Retorna el Tipo de Encriptacion segun el codigo (0-1-2-3-4-5)
+String EncryptionType(int encryptionType) {
+  switch (encryptionType) {
+    case (0):
+      return "Abierta";
+    case (1):
+      return "WEP";
+    case (2):
+      return "WPA_PSK";
+    case (3):
+      return "WPA2_PSK";
+    case (4):
+      return "WPA_WPA2_PSK";
+    case (5):
+      return "WPA2_ENTERPRISE";
+    default:
+      return "Bloqueada";
+    }
 }

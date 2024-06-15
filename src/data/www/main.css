@@ -1,39 +1,20 @@
-
-
-
-
-/*********************************************************/
-
 /*                Important For top hover dropwown                */
-
-
       #top > .navbar .dropdown-menu > li > a:hover, #top > .navbar .dropdown-menu > li > a:focus {
 background-repeat: repeat-x;
    background-image: linear-gradient(to bottom, #EEECEC  0%, #E2E2E2  100%) !important;
 }
-
-
-/*********************************************************/
-
-
-
 #wrap {
   margin: 0 auto;
 }
-
-/* Set the fixed height of the footer here */
-
 #footer {
   height: 48px;
   background-color: #222222;
 }
-
 @media (min-width: 768px) {
   html,
   body {
     height: 100%;
     /* The html and body elements cannot have any padding or margin. */
-  
   }
   #wrap {
     height: auto !important;
@@ -43,49 +24,36 @@ background-repeat: repeat-x;
     margin-bottom: -48px;
   }
 }
-
 /* -------- END Sticky footer styles ------------------ */
 /*********************************************************/
-
 /*                 Template Layout                       */
-
 /*********************************************************/
-
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
-
 ::-webkit-scrollbar-thumb {
   border-radius: 1em;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background-color: #999;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 1em;
 }
-
 ::-webkit-scrollbar-track:hover {
   background: rgba(110, 110, 110, 0.25);
 }
-
 body.padTop53 {
   padding-top: 75px;
   overflow: visible;
 }
-
 @media (min-width: 802px) {
   body.padTop53 {
     padding-top: 51px;
   }
-
-
 }
-
 #wrap:before,
 #top:before,
 .head:before,
@@ -97,22 +65,18 @@ body.padTop53 {
   display: table;
   content: " ";
 }
-
 #wrap:after,
 #top:after,
 .head:after,
 #footer:after {
   clear: both;
 }
-
 #wrap {
   background-color: #f8f8f8;
 }
-
 #right {
   display: none;
 }
-
 @media (min-width: 768px) {
   #left {
     position: relative;
@@ -151,7 +115,6 @@ body.padTop53 {
     margin-bottom: -10px;
   }
 }
-
 @media (min-width: 992px) {
   #left {
     width: 220px;
@@ -179,7 +142,6 @@ body.padTop53 {
     margin-left: 0;
   }
 }
-
 @media (min-width: 768px) {
   .hide-sidebar #left,
   .hide-sidebar #right {
@@ -200,41 +162,32 @@ body.padTop53 {
     margin-left: auto;
   }
 }
-
 /* ================== END Template Layout ============== */
-
 /* BEGIN TOP bar */
-
 #top .navbar {
   margin-bottom: 0;
    border:1px solid rgb(216, 215, 215);
   background-color:#f8f8f8;
 }
-
 #top .navbar-brand {
   padding: 0;
 }
-
 #top .topnav {
   margin: 10px 15px 10px auto;
 }
-
 @media (min-width: 768px) {
   #top .topnav {
     float: right;
   }
 }
-
 /* END TOP bar */
 /* BEGIN header.head bar */
-
 .head {
   text-shadow: 0 1px 0px rgba(0, 0, 0, 0.5);
   background: #404040;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 0px rgba(255, 255, 255, 0.05) inset;
 }
-
 .head .search-bar {
   padding: 10px 15px;
   margin: 0 auto;
@@ -242,12 +195,10 @@ body.padTop53 {
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
           box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-
 .head .search-bar .main-search {
   margin-right: 40px;
   border-bottom: 1px solid #7c7c7c;
 }
-
 .head .search-bar .main-search input[type="text"] {
   color: #ccc;
   background-color: transparent;
@@ -255,13 +206,11 @@ body.padTop53 {
   -webkit-box-shadow: none;
           box-shadow: none;
 }
-
 .head .search-bar .main-search button,
 .head .search-bar .main-search input[type=submit] {
   background: transparent;
   border: transparent;
 }
-
 @media (min-width: 768px) {
   .head .search-bar {
     border-right: 1px solid rgba(0, 0, 0, 0.3);
@@ -276,34 +225,28 @@ body.padTop53 {
             box-shadow: 1px 0 0px rgba(255, 255, 255, 0.05) inset;
   }
 }
-
 .head .main-bar {
   padding: 10px;
 }
-
 .head .main-bar h3 {
   margin-top: 0;
   margin-bottom: 0;
   color: #bababa;
 }
-
 @media (min-width: 768px) {
   .head .main-bar h3 {
     margin-top: 5px;
   }
 }
-
 @media (min-width: 768px) {
   .head .search-bar .main-search {
     margin-right: auto;
   }
 }
-
 #menu-toggle {
   float: right;
   margin-left: 15px;
 }
-
 @media (min-width: 768px) {
   .search-bar {
     float: left;
@@ -362,14 +305,10 @@ body.padTop53 {
     margin-left: 0;
   }
 }
-
 /** END header.head bar */
 /*********************************************************/
-
 /*          Begin LEFT Styles                           */
-
 /*********************************************************/
-
 .user-media {
   display: none;
   /*background-color: #5cb85c;*/
@@ -377,7 +316,6 @@ body.padTop53 {
    border-right:1px solid rgb(216, 215, 215);
     border-left:1px solid rgb(216, 215, 215);
 }
-
 @media (min-width: 768px) {
   .user-media {
     display: block;
@@ -400,7 +338,6 @@ body.padTop53 {
     right: 6px;
   }
 }
-
 @media (min-width: 992px) {
   .user-media .user-link {
     float: left;
@@ -428,7 +365,6 @@ font-weight: bolder;
     /*color: #ccc;*/
   }
 }
-
 @media (min-width: 768px) {
   .mini-sidebar .media-body {
     display: none;
@@ -451,20 +387,17 @@ font-weight: bolder;
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
           box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-
 #menu,
 #menu ul {
   padding: 0;
   margin: 0;
   list-style: none;
 }
-
 @media (min-width: 768px) {
   #menu.collapse {
     display: inherit !important;
   }
 }
-
 #menu > li {
   position: relative;
   display: block;
@@ -472,7 +405,6 @@ font-weight: bolder;
   border-width: 0;
   border-radius: 0;
 }
-
 #menu > li > a {
   position: relative;
   display: block;
@@ -483,7 +415,6 @@ font-weight: bolder;
   /*-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);*/
 }
-
 #menu > li > a:hover,
 #menu > li > a:focus {
   color: #fff;
@@ -491,7 +422,6 @@ font-weight: bolder;
   background-color: #428bca;
   outline: none;
 }
-
 #menu > li > a .label {
   float: right;
 }
@@ -2481,11 +2411,9 @@ fieldset[disabled] .btn-grad.btn-metis-6.active {
   line-height: 150%;
   text-align: center;
 }
-
 .pricing-table li {
   list-style: none;
 }
-
 .pricing-table > li {
   color: #444;
     background-repeat: repeat-x;
@@ -2493,7 +2421,6 @@ fieldset[disabled] .btn-grad.btn-metis-6.active {
     transition: all 0.2s;
     background-image: linear-gradient(to bottom, #ebeef5 0%, #ffffff 100%);
 }
-
 .pricing-table.dark > li {
   color: #fff;
     background-repeat: repeat-x;
@@ -2601,5 +2528,4 @@ fieldset[disabled] .btn-grad.btn-metis-6.active {
 .pricing-table .features ul li {
   padding: 5px 0;
 }
-
 /* END Pricing Table */

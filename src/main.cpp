@@ -3,7 +3,6 @@
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
 #include <TimeLib.h>
-
 // Archivos *hpp - Fragmentar el Codigo
 #include "configuracion.hpp"
 #include "functions.hpp"
@@ -12,10 +11,8 @@
 #include "configuracionSave.hpp"
 #include "esp32_wifi.hpp"
 #include "esp32_mqtt.hpp"
-#include "esp32_api.hpp"
 #include "esp32_websocket.hpp"
 #include "esp32_server.hpp"
-
 //Setup
 void setup() {
   Serial.begin(115200);//velocidad
@@ -54,13 +51,14 @@ void setup() {
     // Salvar el usuario y Contraseña
     settingsSaveAdmin();
   }  
+  //iniciar ws
+  InitWebSockets();//Iniciar el webSocket
   InitServer(); //Inicializar el servidor
   //listDir(SPIFFS,"/",0);// Devuelve la lista de carpetas y archivos del SPIFFS ONLYDEBUG
   log("Info: Setup Completado");
 }
 // Loop Pincipal Nucleo 0
 void loop() {
-
     yield();
     // WIFI para que lea el modo
     if (wifi_mode == WIFI_STA){
@@ -77,8 +75,14 @@ void loop() {
                     lastMsg = millis();
                     mqtt_publish();
                 }
+                mqtt_publish2();
+                mqtt_publishglobal();
             }      
         }
     }
-
+    // Enviar JSON por WS 
+    if (millis() - lastWsSend > 1000){
+        lastWsSend = millis();
+        WsMessage(GetJson(), "");
+    }
 }

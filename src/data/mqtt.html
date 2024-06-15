@@ -1,33 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
-  <!-- BEGIN HEAD-->
   <head>
     <meta charset="UTF-8"/>
     <title>Admin | MQTT</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="" name="description"/>
     <meta content="Leonardo Aguilar" name="author"/>
-    <!-- FAVICON ICONS -->
     <link rel="icon" href="www/portada_iot.jpg" type="image/x-icon">
-    <!-- GLOBAL STYLES -->
     <link rel="stylesheet" href="www/bootstrap.css"/>
     <link rel="stylesheet" href="www/main.css"/>
-    <link rel="stylesheet" href="www/theme.css"/>
     <link rel="stylesheet" href="www/MoneAdmin.css"/>
     <link rel="stylesheet" href="www/bootstrap-switch.css"/>
     <link rel="stylesheet" href="www/sweetalert2.min.css"/>
     <link rel="stylesheet" href="www/styles.css"/>
-    <link
-      rel="stylesheet"
-      href="www/font-awesome.css"/>
-    <!--END GLOBAL STYLES -->
+    <link rel="stylesheet" href="www/font-awesome.css"/>
   </head>
-  <!-- END  HEAD-->
-  <!-- BEGIN BODY-->
   <body class="padTop53" onload="mqtt()">
-    <!-- MAIN WRAPPER -->
     <div id="wrap">
-      <!-- HEADER SECTION -->
       <div id="top">
         <nav
           class="navbar navbar-inverse navbar-fixed-top"
@@ -42,32 +31,15 @@
             id="menu-toggle">
             <i class="icon-align-justify"></i>
           </a>
-          <!-- LOGO SECTION -->
           <header class="navbar-header">
             <a href="/" class="navbar-brand">
-                <!--<img src="portada.png" alt="" width="150" height="50"/></a>-->
-                <b><span style="color: rgb(0, 110, 255);">Bienvenido al Sistema de IoT</span></b>
+              <b><span style="color: rgb(0, 110, 255);">Bienvenido al Sistema de IoT</span></b>
            </header>
-          <!-- END LOGO SECTION -->
           <ul class="nav navbar-top-links navbar-right">
-            <!--ADMIN SETTINGS SECTIONS -->
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="icon-user"></i>&nbsp;
-                <i class="icon-chevron-down"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-user">
-                <li><a href="esp-admin"><i class="icon-user"></i> Usuario </a></li>
-                <li class="divider"></li>
-                <li><a href="esp-logout"><i class="icon-signout"></i> Salir </a></li>
-              </ul>
-            </li>
-            <!--END ADMIN SETTINGS -->
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"></a></li>
           </ul>
         </nav>
       </div>
-      <!-- END HEADER SECTION -->
-      <!-- MENU SECTION -->
       <div id="left">
         <div class="media user-media well-small">
           <a class="user-link" href="/">
@@ -94,6 +66,7 @@
           <li class="panel active">
             <a href="esp-mqtt"> <i class="icon-sitemap"></i> MQTT </a>
           </li>
+          <li class="panel"><a href="esp-dispositivos"> <i class="icon-tablet"></i> Dispositivos </a></li>
           <li class="panel">
             <a
               href="#"
@@ -101,13 +74,11 @@
               data-toggle="collapse"
               class="accordion-toggle"
               data-target="#component-nav">
-              <i class="icon-cog"></i> ADMINISTRAR<span class="pull-right"><i class="icon-angle-left"></i></span>
+              <i class="icon-cog"></i> CONFIGURACIÓN<span class="pull-right"><i class="icon-angle-left"></i></span>
             </a>
             <ul class="collapse" id="component-nav">
-              <li class=""><a href="esp-dispositivo"><i class="icon-angle-right"></i> Dispositivo</a></li>
-              <li class=""><a href="esp-restablecer"><i class="icon-angle-right"></i> Restablecer de Fabrica</a></li>
-              <li class=""><a href="esp-reiniciar"><i class="icon-angle-right"></i> Reincio</a></li>
-              <li class=""><a href="esp-usuario"><i class="icon-angle-right"></i>Contraseña</a></li>
+              <li class=""><a href="esp-servidor"><i class="icon-angle-right"></i> Servidor</a></li>
+              <li class=""><a href="esp-usuario"><i class="icon-angle-right"></i> Contraseña</a></li>
             </ul>
           </li>
           <li class="panel">
@@ -115,13 +86,11 @@
           </li>
         </ul>
       </div>
-      <!--END MENU SECTION -->
-      <!--PAGE CONTENT -->
       <div id="content">
         <div class="inner" style="min-height: 1200px">
           <div class="row">
             <div class="col-lg-12">
-              <h2>Configuración del Broker MQTT</h2>
+              <h2 id="page">Configuración del Broker MQTT</h2>
             </div>
           </div>
           <hr/>
@@ -140,70 +109,59 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" id="form_id">
+                        <div class="form-group" id="form_mqtt_id">
                             <label for="mqtt_id" class="control-label col-lg-3">Client ID MQTT Broker :</label>
                             <div class="col-lg-5">
-                                <input type="text" id="mqtt_id" name="mqtt_id" value="#mqtt_id#" placeholder="Client ID MQTT Broker" class="form-control mqtt">
-                                <!--<label for="mqtt_id" class="help-block formulario_input-error">El Client ID MQTT tiene
-                                    que contener un mínimo de 4 dígitos y 30 como máximo, solo puede contener números y
-                                    letras.</label>-->
+                                <input type="text" id="mqtt_id" name="mqtt_id" value="#mqtt_id#" data-expresion="TextNumber" placeholder="Client ID MQTT Broker" class="form-control mqtt">
+                                <label for="mqtt_id" class="help-block formulario_input-error">El Client ID MQTT tiene que contener un mínimo de 4 dígitos y 30 como máximo, solo puede contener números y letras.</label>
                             </div>
                         </div>
-                        <div class="form-group" id="form_user">
+                        <div class="form-group" id="form_mqtt_user">
                             <label for="mqtt_user" class="control-label col-lg-3">Usuario MQTT Broker :</label>
                             <div class="col-lg-5">
                                 <input type="text" id="mqtt_user" name="mqtt_user" value="#mqtt_user#" data-expresion="TextUnderscore" placeholder="Usuario MQTT" class="form-control mqtt">
-                                <!--<label for="mqtt_user" class="help-block formulario_input-error">El Usuario MQTT tiene
-                                    que contener un mínimo de 4 dígitos y 30 como máximo, solo puede contener letras y
-                                    guión bajo.</label>-->
+                                <label for="mqtt_user" class="help-block formulario_input-error">El Usuario MQTT tiene que contener un mínimo de 4 dígitos y 30 como máximo, solo puede contener letras y guión bajo.</label>
                             </div>
                         </div>
-                        <div class="form-group" id="form_passw">
+                        <div class="form-group" id="form_mqtt_passw">
                             <label for="mqtt_passw" class="control-label col-lg-3">Contraseña MQTT Broker:</label>
                             <div class="col-lg-5">
                                 <input type="password" id="mqtt_passw" name="mqtt_passw" data-expresion="TextNumberPassw" placeholder="*********" class="form-control mqtt">
-                                <!--<label for="mqtt_passw" class="help-block formulario_input-error">La Contraseña MQTT
-                                    tiene que contener un mínimo de 4 dígitos y 30 como máximo, solo puede incluir
-                                    números, letras y los siguientes caracteres especiales (-)(_)(*).</label>-->
+                                <label for="mqtt_passw" class="help-block formulario_input-error">La Contraseña MQTT tiene que contener un mínimo de 4 dígitos y 30 como máximo, solo puede incluir números, letras y los siguientes caracteres especiales (-)(_)(*).</label>
                             </div>
                         </div>
-                        <div class="form-group" id="form_server">
+                        <div class="form-group" id="form_mqtt_server">
                             <label for="mqtt_server" class="control-label col-lg-3">Servidor MQTT :</label>
                             <div class="col-lg-5">
                                 <input type="text" id="mqtt_server" name="mqtt_server" value="#mqtt_server#" data-expresion="Dominio" placeholder="Servidor MQTT" class="form-control mqtt">
-                                <!--<label for="mqtt_server" class="help-block formulario_input-error">No es un servidor
-                                    válido, Ejemplo: tudominio.com</label>-->
+                                <label for="mqtt_server" class="help-block formulario_input-error">No es un servidor válido, Ejemplo: tudominio.com</label>
                             </div>
                         </div>
-                        <div class="form-group" id="form_port">
+                        <div class="form-group" id="form_mqtt_port">
                             <label for="mqtt_port" class="control-label col-lg-3">Puerto Servidor MQTT :</label>
                             <div class="col-lg-5">
                                 <input type="number" id="mqtt_port" name="mqtt_port" value="#mqtt_port#" data-expresion="ServerPort" placeholder="Puerto Servidor MQTT" class="form-control mqtt">
-                                <!--<label for="mqtt_port" class="help-block formulario_input-error">No es un puerto válido,
-                                    Ejemplo: 0 - 65535 .</label>-->
+                                <label for="mqtt_port" class="help-block formulario_input-error">No es un puerto válido, Ejemplo: 0 - 65535 .</label>
                             </div>
                         </div>
-                        <div class="form-group" id="form_time">
+                        <div class="form-group" id="form_mqtt_time">
                             <label for="mqtt_time" class="control-label col-lg-3">Publish cada (min) :</label>
                             <div class="col-lg-5">
                                 <input type="number" id="mqtt_time" name="mqtt_time" value="#mqtt_time#" placeholder="Tiempo en Minutos" class="form-control mqtt">
-                                <!--<label for="mqtt_time" class="help-block formulario_input-error">No es un tiempo válido,
-                                    Ejemplo: 1 - 60 minutos.</label>-->
+                                <label for="mqtt_time" class="help-block formulario_input-error">No es un tiempo válido, Ejemplo: 1 - 60 minutos.</label>
                             </div>
                         </div>
-                        <!--<div class="form-group formulario_mensaje" id="formulario_mensaje">
+                        <div class="form-group formulario_mensaje" id="formulario_mensaje">
                             <div class="col-lg-12">
                                 <div class="alert alert-danger">
-                                   <p class="alert-link"><i class="icon-remove-sign"></i> <b>Error:</b> ¡Por favor
-                                        rellena el formulario correctamente!. </p>
+                                   <p class="alert-link"><i class="icon-remove-sign"></i> <b>Error:</b> ¡Por favor rellena el formulario correctamente!. </p>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="form-group">
                             <label for="#" class="control-label col-lg-3"></label>
                             <div class="col-lg-5">
-                                <button class="btn btn-primary" type="submit"><i class="icon-save icon-white"></i>
-                                    Guardar</button>
+                                <button class="btn btn-primary" type="submit"><i class="icon-save icon-white"></i>Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -212,8 +170,6 @@
         </div>
         </div>
       </div>
-      <!--END PAGE CONTENT -->
-      <!-- RIGHT STRIP  SECTION -->
       <div id="right">
         <div class="well well-small">
           <span>SEÑAL WIFI</span><span class="pull-right"><small>20%</small></span>
@@ -235,22 +191,15 @@
           </div>
         </div>
       </div>
-      <!-- END RIGHT STRIP  SECTION -->
     </div>
-    <!--END MAIN WRAPPER -->
-    <!-- FOOTER -->
     <div id="footer">
       <p>&copy; Sistema web IoT &nbsp;2024 &nbsp;v1.0.0</p>
     </div>
-    <!--END FOOTER -->
-    <!-- GLOBAL SCRIPTS -->
     <script src="www/jquery-2.0.3.min.js"></script>
     <script src="www/bootstrap.min.js"></script>
     <script src="www/modernizr-2.6.2.min.js"></script>
     <script src="www/bootstrap-switch.min.js"></script>
     <script src="www/sweetalert2.min.js"></script>
     <script src="www/scripts.js"></script>
-    <!-- END GLOBAL SCRIPTS -->
   </body>
-  <!-- END BODY-->
 </html>

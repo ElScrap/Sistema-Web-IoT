@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin | Dispositivos</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="" name="description" />
+  <meta content="Leonardo Aguilar" name="author" />
+  <link rel="icon" href="www/portada_iot.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="www/bootstrap.css" />
+  <link rel="stylesheet" href="www/main.css" />
+  <link rel="stylesheet" href="www/MoneAdmin.css" />
+  <link rel="stylesheet" href="www/bootstrap-switch.css" />
+  <link rel="stylesheet" href="www/sweetalert2.min.css" />
+  <link rel="stylesheet" href="www/styles.css" />
+  <link rel="stylesheet" href="www/font-awesome.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+</head>
+
+<body class="padTop53">
+  <div id="wrap">
+    <div id="top">
+      <nav class="navbar navbar-inverse navbar-fixed-top" style="padding-top: 10px">
+        <a data-original-title="Show/Hide Menu" data-placement="bottom" data-tooltip="tooltip"
+          class="accordion-toggle btn btn-primary btn-sm visible-xs" data-toggle="collapse" href="#menu"
+          id="menu-toggle">
+          <i class="icon-align-justify"></i>
+        </a>
+        <header class="navbar-header">
+          <a href="/" class="navbar-brand">
+            <b><span style="color: rgb(0, 110, 255);">Bienvenido al Sistema de IoT</span></b>
+        </header>
+        <ul class="nav navbar-top-links navbar-right">
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"></a></li>
+        </ul>
+      </nav>
+    </div>
+    <div id="left">
+      <div class="media user-media well-small">
+        <a class="user-link" href="/">
+          <img class="media-object img-thumbnail user-img" alt="User Picture" src="www/portada_iot.jpg" width="90" />
+        </a>
+        <br />
+        <div class="media-body">
+          <h5 class="media-heading">#platform#</h5>
+          <ul class="list-unstyled user-info">
+            <li><a class="btn btn-success btn-xs btn-circle" style="width: 10px; height: 12px"></a>Online </li>
+          </ul>
+        </div>
+        <br />
+      </div>
+      <ul id="menu" class="collapse">
+        <li class="panel"><a href="/"> <i class="icon-th-large"></i> DASHBOARD </a></li>
+        <li class="panel"><a href="esp-wifi"> <i class="icon-signal"></i> WIFI </a></li>
+        <li class="panel"><a href="esp-mqtt"> <i class="icon-sitemap"></i> MQTT </a></li>
+        <li class="panel active"><a href="esp-dispositivos"> <i class="icon-tablet"></i> Dispositivos </a></li>
+        <li class="panel">
+          <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#component-nav">
+            <i class="icon-cog"> </i> CONFIGURACIÓN
+            <span class="pull-right">
+              <i class="icon-angle-left"></i>
+            </span>
+          </a>
+          <ul class="collapse" id="component-nav">
+            <li class=""><a href="esp-servidor"><i class="icon-angle-right"></i> Servidor</a></li>
+            <li class=""><a href="esp-usuario"><i class="icon-angle-right"></i> Contraseña</a></li>
+          </ul>
+        </li>
+        <li class="panel"><a href="esp-logout"> <i class="icon-signout"></i> SALIR </a></li>
+      </ul>
+    </div>
+    <div id="content">
+      <div class="inner" style="min-height: 1200px">
+        <div class="row">
+          <div class="col-lg-12">
+            <h2 id="page">Dispositivos para controlar</h2>
+          </div>
+        </div>
+        <hr />
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center;">
+              <div><span class="label label-primary"style="width: 310px; height: 18px; display: inline-flex; font-size: 14px;">Mensaje/Tiempo para todos los dispositivos</span></div>
+              <div style="border: 2px solid gray; text-align: center;">
+                <p>Usted puede enviar aqui cualquier mensaje y tiempo a todos los dispositivos, para asignar tiempos en horas es importante escribirlos en minutos
+                  y este se convertirá de manera automática en horas.</p>
+                  <input type="text" id="inputtodosDispositivos" placeholder="Tiempo/Mensaje"></input><br>
+                <button class="btn btn-primary" style="height: 30px; margin-top: 2px;  margin-bottom: 2px;" onclick="envioTodosDispositivos()">Enviar</button>
+              </div>
+            </div>
+            <div class="col-md-6" style="text-align: center;">
+              <div style="text-align: center;"><span class="label label-primary"style="width: 220px; height: 18px; display: inline-flex; font-size: 14px;">Conversion de minutos a horas</span></div>
+              <div class="row" style="border: 2px solid gray; text-align: center;">
+                <div class="col-md-6">
+                  <b>Horas/Minutos</b><br>
+                  1 =  60  <br>
+                  2 =  120 <br>
+                  3 =  180 <br>
+                  4 =  240 <br>
+                  5 =  300 <br>
+                  <p></p>
+                </div>
+                <div class="col-md-6">
+                  <b>Horas/Minutos</b><br>
+                  6 =  360  <br>
+                  7 =  420 <br>
+                  8 =  480 <br>
+                  9 =  540 <br>
+                  10 = 600 <br>   
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 2px;">
+            <div style="text-align: center;"><span class="label label-primary"style="width: 180px; height: 18px; display: inline-flex; font-size: 14px;">Generar Archivo de Uso</span></div>
+            <div style="border: 2px solid gray; text-align: center;">
+              <div style="margin-top: 5px;">
+                <span style="margin-top: 5px">Docente:<input type="text" id="inputDocente" placeholder="Nombre del Docente"></input>
+                  Materia:<input type="text" id="inputMateria" placeholder="Nombre de Materia"></input>
+                  Semestre:<input type="text" id="inputSemestre" placeholder="Numero de Semetre"></input>
+                  Fecha:<input type="date" id="fecha" name="fecha" value=""></span>
+                <div style="text-align: center;"><button class="btn btn-success" style="height: 30px; margin-top: 2px; margin-bottom: 2px;" onclick="crearReporte()">Generar</button></div>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="grid-container" id="container1" style="text-align: center;"></div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <p>&copy; Sistema web IoT &nbsp;2024 &nbsp;v1.0.0</p>
+  </div>
+  <script src="www/jquery-2.0.3.min.js"></script>
+  <script src="www/bootstrap.min.js"></script>
+  <script src="www/modernizr-2.6.2.min.js"></script>
+  <script src="www/bootstrap-switch.min.js"></script>
+  <script src="www/sweetalert2.min.js"></script>
+  <script src="www/scripts.js"></script>
+</body>
+
+</html>

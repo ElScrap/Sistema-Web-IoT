@@ -9,10 +9,9 @@
 #include <WiFi.h>
 #include <DNSServer.h>
 #include <ESPmDNS.h>
-
 const byte DNSSERVER_PORT = 53;
 DNSServer dnsServer;
-IPAddress apIP(192,168,4,1);
+IPAddress apIP(192,168,6,2);
 IPAddress netMsk(255,255,255,0);
 int wifi_mode = WIFI_STA;
 unsigned long previousMillisWIFI = 0;

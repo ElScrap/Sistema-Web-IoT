@@ -1,11 +1,3 @@
-/* -------------------------------------------------------------------
- * Elaborado por: Leonardo Aguilar
- * Correo: leonardo-aguilar@hotmail.es
- * Plataforma ESP32-Web
- * Sistema Web para la gestion de dispositivos IoT y Moviles
- * V1.0.0-2024
- * -------------------------------------------------------------------
-*/
 bool enableCors = true;
 // Función de ayuda para realizar autenticación en una solicitud http
 bool requestPreProcess(AsyncWebServerRequest *request, AsyncResponseStream *&response, const char *contentType = "application/json"){
@@ -13,17 +5,13 @@ bool requestPreProcess(AsyncWebServerRequest *request, AsyncResponseStream *&res
     request->requestAuthentication();
     return false;
   }
-
   response = request->beginResponseStream(contentType);
-
   if(enableCors) {
     response->addHeader("Access-Control-Allow-Origin", "*");
   }
-
   return true;
 }
-//Cargar pagina Index.html o home
-    //url: /
+//Cargar pagina Index.html o home url: /
 void handleHome(AsyncWebServerRequest *request) {
     AsyncResponseStream *response;
     File file = SPIFFS.open(F("/index.html"),"r");
@@ -62,7 +50,7 @@ void handleHome(AsyncWebServerRequest *request) {
         s.replace(F("#mqtt_on#"), mqttclient.connected() ? F("<span class='label btn-metis-2'>Online</span>") : F("<span class='label label-danger'>Offline</span>"));
         s.replace(F("#temp_cpu#"), String(TempCPUValue()));
         /* Bloque Progressbar */
-        s.replace(F("#flash_available#"), String(round(SPIFFS.usedBytes() * 100 / SPIFFS.totalBytes()), 0));
+        s.replace(F("#spiffs_used#"), String(round(SPIFFS.usedBytes() * 100 / SPIFFS.totalBytes()), 0));
         s.replace(F("#ram_available#"), String(ESP.getFreeHeap() * 100 / ESP.getHeapSize()));
         /* Botones Relays */
         s.replace(F("#relay1#"), Relay01_status ? "checked" : "");
@@ -77,9 +65,7 @@ void handleHome(AsyncWebServerRequest *request) {
         request->send(500, "text/plain","/index.html no funciona, esta seguro que lo cargo a la memoria SPIFFS?");
     }
 }
-
-//Cargar informacion de las paginas al servidor es decir peticiones GET/POST
-void InitServer(){
+void InitServer(){//Cargar informacion de las paginas al servidor es decir peticiones GET/POST
     //Cargar todos los archivos estaticos del servidor es decir loque no es html
     server.serveStatic("/www/bootstrap-switch.css", SPIFFS, "/www/bootstrap-switch.css").setDefaultFile("www/bootstrap-switch.css").setCacheControl("max-age=600");
     server.serveStatic("/www/bootstrap-switch.min.js", SPIFFS, "/www/bootstrap-switch.min.js").setDefaultFile("www/bootstrap-switch.min.js").setCacheControl("max-age=600");
@@ -100,7 +86,6 @@ void InitServer(){
     server.serveStatic("/www/error.css", SPIFFS, "/www/error.css").setDefaultFile("www/error.css").setCacheControl("max-age=600");
     server.serveStatic("/www/sweetalert2.min.css", SPIFFS, "/www/sweetalert2.min.css").setDefaultFile("www/sweetalert2.min.css").setCacheControl("max-age=600");
     server.serveStatic("/www/sweetalert2.min.js", SPIFFS, "/www/sweetalert2.min.js").setDefaultFile("www/sweetalert2.min.js").setCacheControl("max-age=600");
-    
     //Cargar pagina Index.html o home
     //url: /
     //Metodo: GET
@@ -169,15 +154,15 @@ void InitServer(){
             request->send(500, "text/plain","/mqtt.html not found, have you flashed the SPIFFS?");
         }
     });
-    //Cargar pagina dispositivo.html
-    //url: /esp-dispositivo
-    server.on("/esp-dispositivo", HTTP_GET, [](AsyncWebServerRequest *request){
+    //Cargar pagina servidor.html
+    //url: /esp-servidor
+    server.on("/esp-servidor", HTTP_GET, [](AsyncWebServerRequest *request){
         AsyncResponseStream *response;
         if(false == requestPreProcess(request, response)) {
             return;
         }
         // Cargar página html Configuración del MQTT
-        File file = SPIFFS.open(F("/dispositivo.html"), "r");
+        File file = SPIFFS.open(F("/servidor.html"), "r");
         if (file){
             file.setTimeout(100);
             String s = file.readString();
@@ -188,54 +173,32 @@ void InitServer(){
             // Send data
             request->send(200, "text/html", s);
         }else{
-            request->send(500, "text/plain","/dispositivo.html not found, have you flashed the SPIFFS?");
+            request->send(500, "text/plain","/servidor.html not found, have you flashed the SPIFFS?");
         }
     });
     // Cargar página restore.html
-    // url: /esp-restore
+    // url: /esp-dispositivos
     // Metodo: GET
-    server.on("/esp-restablecer", HTTP_GET, [](AsyncWebServerRequest *request){
+    server.on("/esp-dispositivos", HTTP_GET, [](AsyncWebServerRequest *request){
         AsyncResponseStream *response;
         if(false == requestPreProcess(request, response)) {
             return;
         }
-        // Cargar página html Configuración del MQTT
-        File file = SPIFFS.open(F("/restablecer.html"), "r");
+        // Cargar página html Configuración del DISPOSITIVOS
+        File file = SPIFFS.open(F("/dispositivos.html"), "r");
         if (file){
             file.setTimeout(100);
             String s = file.readString();
             file.close();
             s.replace(F("#platform#"), platform());
+            s.replace(F("#modelomovil#"), modelomovil);
+            s.replace(F("#emeidispomovil#"), emeidispo);
             // Send data
             request->send(200, "text/html", s);
         }else{
-            request->send(500, "text/plain","/restablecer.html not found, have you flashed the SPIFFS?");
+            request->send(500, "text/plain","/dispositivos.html not found, have you flashed the SPIFFS?");
         }
     });
-    // Cargar página restart.html
-    // url: /esp-reiniciar
-    // Metodo: GET
-    server.on("/esp-reiniciar", HTTP_GET, [](AsyncWebServerRequest *request){
-        AsyncResponseStream *response;
-        if(false == requestPreProcess(request, response)) {
-            return;
-        }
-        // Cargar página html Configuración del MQTT
-        File file = SPIFFS.open(F("/reiniciar.html"), "r");
-        if (file){
-            file.setTimeout(100);
-            String s = file.readString();
-            file.close();
-            s.replace(F("#platform#"), platform());
-            // Send data
-            request->send(200, "text/html", s);
-        }else{
-            request->send(500, "text/plain","/reiniciar.html not found, have you flashed the SPIFFS?");
-        }
-    });
-    // Cargar página usuario.html
-    // url: /esp-usuario
-    // Metodo: GET
     server.on("/esp-usuario", HTTP_GET, [](AsyncWebServerRequest *request){
        AsyncResponseStream *response;
         if(false == requestPreProcess(request, response)) {
@@ -254,7 +217,7 @@ void InitServer(){
             request->send(500, "text/plain","/usuario.html not found, have you flashed the SPIFFS?");
         }
     });
-                                                                        //METODOS POST
+    //METODOS POST
     // Guardar la Contraseña y el Usuario
     // url: /esp-usuario
     // Metodo: POST
@@ -356,10 +319,10 @@ void InitServer(){
             request->send(200, "text/html", SweetAlert("Error", "Error", "Error de Parámetros", "error", "aviso"));
         }
     });
-    // Guardar el ID del Dispositivo
+    // Guardar el ID del servidor
     // url: /esp-device
     // Metodo: POST
-    server.on("/esp-dispositivo", HTTP_POST, [](AsyncWebServerRequest *request){
+    server.on("/esp-servidor", HTTP_POST, [](AsyncWebServerRequest *request){
         AsyncResponseStream *response;
         if(false == requestPreProcess(request, response)) {
             return;
@@ -620,6 +583,50 @@ void InitServer(){
                 log("Info: _GET[]: " + p->name() + p->value());
             }
         }
+        //Scanear Wifi
+    server.on("/scan", HTTP_GET, [](AsyncWebServerRequest *request){
+    AsyncResponseStream *response;
+        if(false == requestPreProcess(request, response)) {
+            return;
+        }
+        String json = "";
+        int n = WiFi.scanComplete();
+        if(n == -2){
+        json = "{";
+        json += "\"meta\": { \"serial\": \""+ device_id +"\", \"count\": 0},";
+        json += "\"data\": [";
+        json += "],";   
+        json += "\"code\": 0 ";
+        json += "}";
+        WiFi.scanNetworks(true, true); 
+        } else if(n){
+            json = "{";
+            json += "\"meta\": { \"serial\": \""+ device_id +"\", \"count\":"+String(n)+"},";
+            json += "\"data\": [";
+            for (int i = 0; i < n; ++i){
+                if(i) json += ",";
+                json += "{";
+                json += "\"n\":"+String(i+1);
+                json += ",\"rssi\":"+String(WiFi.RSSI(i));
+                json += ",\"ssid\":\""+WiFi.SSID(i)+"\"";
+                json += ",\"bssid\":\""+WiFi.BSSIDstr(i)+"\"";
+                json += ",\"channel\":"+String(WiFi.channel(i));
+                json += ",\"secure\":\""+ EncryptionType(WiFi.encryptionType(i))+"\"";
+                json += "}";
+            }
+            json += "],";   
+            json += "\"code\": 1 ";
+            json += "}";
+            WiFi.scanDelete();
+            if(WiFi.scanComplete() == -2){
+                WiFi.scanNetworks(true, true);
+            }
+        }
+        response->addHeader("Server","ESP32 Admin Tools");
+        request->send(200, "application/json", json);
+        json = String();
+
+    });
         // Error 404 página no encontrada
         File file = SPIFFS.open(F("/error_404.html"), "r");
         if (file){

@@ -23,8 +23,7 @@
  *  Twitter: http://twitter.com/davegandy
  *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
  */
-/* FONT PATH
- * -------------------------- */
+/* FONT PATH*/
 @font-face {
   font-family: 'FontAwesome';
   src: url('fontawesome-webfont.eot?v=3.2.1');
@@ -32,8 +31,7 @@
   font-weight: normal;
   font-style: normal;
 }
-/* FONT AWESOME CORE
- * -------------------------- */
+/* FONT AWESOME CORE*/
 [class^="icon-"],
 [class*=" icon-"] {
   font-family: FontAwesome;
@@ -156,7 +154,6 @@ a [class*=" icon-"] {
   margin-left: .3em;
 }
 /* BOOTSTRAP SPECIFIC CLASSES
- * -------------------------- */
 /* Bootstrap 2.0 sprites.less reset */
 [class^="icon-"],
 [class*=" icon-"] {
@@ -248,8 +245,7 @@ a [class*=" icon-"] {
 .nav-list [class*=" icon-"] {
   line-height: inherit;
 }
-/* EXTRAS
- * -------------------------- */
+/* EXTRAS*/
 /* Stacked and layered icon */
 .icon-stack {
   position: relative;

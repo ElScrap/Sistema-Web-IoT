@@ -43,10 +43,8 @@ boolean configuracionReadWIFI()
 }
 // Leer configuraciones de los Parametros MQTT
 boolean settingsReadMQTT(){
-
     // StaticJsonDocument<384> jsonConfig;
     StaticJsonDocument<capacitymqtt> jsonConfig;
-
     File file = SPIFFS.open(F("/ConfigMQTT.json"), "r");
     if (deserializeJson(jsonConfig, file)){
         // Si falla la lectura asume valores por defecto
@@ -69,7 +67,7 @@ boolean settingsReadMQTT(){
 }
 // Estados de los reles
 boolean configuracionReadRelays(){
-     StaticJsonDocument<capacityrele> jsonConfig;
+    StaticJsonDocument<capacityrele> jsonConfig;
     File file = SPIFFS.open("/Configrelays.json", "r");
     if (deserializeJson(jsonConfig, file)){
         // Si falla la lectura inicia valores por defecto

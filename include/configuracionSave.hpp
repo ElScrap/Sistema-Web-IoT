@@ -16,7 +16,6 @@ boolean settingsSaveRelays(){
         jsonConfig["Relay02_status"] = Relay02_status;
         serializeJsonPretty(jsonConfig, file);
         file.close();
-        
         log(F("Info: Estado de los Relay guardado"));
         //serializeJsonPretty(jsonConfig, Serial);
         return true;
@@ -101,4 +100,3 @@ boolean settingsSaveMQTT(){
     return false;
   }    
 }
-
